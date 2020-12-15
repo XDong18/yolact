@@ -128,6 +128,19 @@ dataset_base = Config({
     'label_map': None
 })
 
+bdd100k_dataset = dataset_base.copy({
+    'name': 'bdd100k',
+
+    'train_images': '/shared/xudongliu/bdd100k/10k/train/',
+    'train_info':   '/shared/xudongliu/bdd100k/labels/ins_seg/ins_seg_train.json',
+
+    'valid_images': '/shared/xudongliu/bdd100k/10k/val/',
+    'valid_info':   '/shared/xudongliu/bdd100k/labels/ins_seg/ins_seg_val.json',
+
+    'has_gt': True,
+    'class_names': ('person', 'rider', 'car', 'bus', 'truck', 'bicycle', 'motorcycle', 'train')
+})
+
 coco2014_dataset = dataset_base.copy({
     'name': 'COCO 2014',
     
@@ -657,15 +670,16 @@ yolact_base_config = coco_base_config.copy({
     'name': 'yolact_base',
 
     # Dataset stuff
-    'dataset': coco2017_dataset,
-    'num_classes': len(coco2017_dataset.class_names) + 1,
+    'dataset': bdd100k_dataset,
+    'num_classes': 8 + 1,
 
     # Image Size
     'max_size': 550,
     
     # Training params
-    'lr_steps': (280000, 600000, 700000, 750000),
-    'max_iter': 800000,
+    'lr_steps': (21600, 28800),
+    'max_iter': 31500,
+    'lr': 2e-3,
     
     # Backbone Settings
     'backbone': resnet101_backbone.copy({
@@ -750,6 +764,20 @@ yolact_resnet50_config = yolact_base_config.copy({
     }),
 })
 
+yolact_resnet50_1280_720_config = yolact_base_config.copy({
+    'name': 'yolact_resnet50',
+    'max_size': 960
+    'preserve_aspect_ratio': True,
+    'backbone': resnet50_backbone.copy({
+        'selected_layers': list(range(1, 4)),
+        
+        'pred_scales': [[int(x[0] / yolact_base_config.max_size * 960)] for x in yolact_base_config.backbone.pred_scales],
+        'pred_aspect_ratios': yolact_base_config.backbone.pred_aspect_ratios,
+        'use_pixel_scales': True,
+        'preapply_sqrt': False,
+        'use_square_anchors': True, # This is for backward compatability with a bug
+    }),
+})
 
 yolact_resnet50_pascal_config = yolact_resnet50_config.copy({
     'name': None, # Will default to yolact_resnet50_pascal
