@@ -766,7 +766,7 @@ yolact_resnet50_config = yolact_base_config.copy({
 
 yolact_resnet50_1280_720_config = yolact_base_config.copy({
     'name': 'yolact_resnet50',
-    'max_size': 960
+    'max_size': 960,
     'preserve_aspect_ratio': True,
     'backbone': resnet50_backbone.copy({
         'selected_layers': list(range(1, 4)),
