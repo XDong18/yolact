@@ -1,2 +1,2 @@
-export CUDA_VISIBLE_DEVICES=0,1,2,3,6,7,8,9
-python eval.py --trained_model=out/yolact_resnet50_1280_720_config/yolact_resnet50_36_15750.pth --score_threshold=0.15 --top_k=15 --images=/shared/xudongliu/bdd100k/10k/val/:./show/yolact_resnet50_1280_720_config/
+export CUDA_VISIBLE_DEVICES=0,1,2,3
+python eval.py --trained_model=out/yolact_resnet50_config/yolact_resnet50_36_15750.pth --score_threshold=0.15 --top_k=15 --images=/shared/xudongliu/bdd100k/10k/val/:./show/yolact_resnet50_config/
