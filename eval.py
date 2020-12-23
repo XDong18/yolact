@@ -1026,8 +1026,8 @@ def calc_map(ap_data):
             all_maps[iou_type][int(threshold*100)] = mAP
         all_maps[iou_type]['all'] = (sum(all_maps[iou_type].values()) / (len(all_maps[iou_type].values())-1))
     
-    print(mAP)
-    
+    print(aps)
+
     print_maps(all_maps)
     
     # Put in a prettier format so we can serialize it to json during training
