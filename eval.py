@@ -1022,8 +1022,11 @@ def calc_map(ap_data):
         all_maps[iou_type]['all'] = 0 # Make this first in the ordereddict
         for i, threshold in enumerate(iou_thresholds):
             mAP = sum(aps[i][iou_type]) / len(aps[i][iou_type]) * 100 if len(aps[i][iou_type]) > 0 else 0
+            
             all_maps[iou_type][int(threshold*100)] = mAP
         all_maps[iou_type]['all'] = (sum(all_maps[iou_type].values()) / (len(all_maps[iou_type].values())-1))
+    
+    print(mAP)
     
     print_maps(all_maps)
     
